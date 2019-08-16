@@ -1,10 +1,10 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_iam_user" "circle_ci_machine-user" {
-  name          = "circle-ci-machine-user"
-  path          = "/machine-user/"
-  force_destroy = "true"
-    permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/LimitTerraform"
+  name                 = "circle-ci-machine-user"
+  path                 = "/machine-user/"
+  force_destroy        = "true"
+  permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/LimitTerraform"
 }
 
 resource "aws_iam_access_key" "circle_ci_machine_user" {
@@ -62,7 +62,19 @@ data "aws_iam_policy_document" "push_to_ecr" {
       "ecr:PutImage",
     ]
 
-    resources = [var.allowed_ecr_arns]
+    resources = [
+      var.allowed_ecr_arns,
+    ]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:GetAuthorizationToken",
+    ]
+
+    resources = [
+      "*",
+    ]
   }
 }
 
