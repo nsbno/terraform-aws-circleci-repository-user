@@ -61,17 +61,13 @@ data "aws_iam_policy_document" "push_to_ecr" {
       "ecr:CompleteLayerUpload",
       "ecr:PutImage",
     ]
-
-    resources = [
-      var.allowed_ecr_arns,
-    ]
+    resources = var.allowed_ecr_arns
   }
   statement {
     effect = "Allow"
     actions = [
       "ecr:GetAuthorizationToken",
     ]
-
     resources = [
       "*",
     ]
@@ -83,16 +79,11 @@ data "aws_iam_policy_document" "push_to_s3" {
 
   statement {
     effect = "Allow"
-
     actions = [
       "s3:PutObject",
       "s3:ListBucket",
     ]
-
-    resources = [
-      var.allowed_s3_arns,
-      "${var.allowed_s3_arns}/*",
-    ]
+    resources = concat(var.allowed_s3_arns, formatlist("%s/*", var.allowed_s3_arns))
   }
 }
 

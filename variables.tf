@@ -3,7 +3,8 @@ variable "name_prefix" {
 }
 
 variable "allowed_s3_arns" {
-  default = ""
+  default = []
+  type    = list(string)
 }
 
 variable "allowed_s3_count" {
@@ -15,7 +16,8 @@ variable "allowed_ecr_count" {
 }
 
 variable "allowed_ecr_arns" {
-  default = ""
+  default = []
+  type    = list(string)
 }
 
 variable "ci_parameters_key" {
