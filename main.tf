@@ -2,7 +2,7 @@ data "aws_caller_identity" "current" {}
 
 
 resource "aws_iam_user" "circle_ci_machine-user" {
-  name                 = "circle-ci-machine-user"
+  name                 = "${var.name_prefix}-circle-ci"
   path                 = "/machine-user/"
   force_destroy        = "true"
   permissions_boundary = var.permissions_boundary
@@ -13,14 +13,14 @@ resource "aws_iam_access_key" "circle_ci_machine_user" {
 }
 
 resource "aws_ssm_parameter" "pipeline-ci-user-id" {
-  name   = "ci-machine-user-id"
+  name   = "${var.name_prefix}-ci-machine-user-id"
   type   = "SecureString"
   value  = aws_iam_access_key.circle_ci_machine_user.id
   key_id = var.ci_parameters_key
 }
 
 resource "aws_ssm_parameter" "pipeline-ci-user-key" {
-  name   = "ci-machine-user-key"
+  name   = "${var.name_prefix}-ci-machine-user-key"
   type   = "SecureString"
   value  = aws_iam_access_key.circle_ci_machine_user.secret
   key_id = var.ci_parameters_key
