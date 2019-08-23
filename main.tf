@@ -1,10 +1,11 @@
 data "aws_caller_identity" "current" {}
 
+
 resource "aws_iam_user" "circle_ci_machine-user" {
   name                 = "circle-ci-machine-user"
   path                 = "/machine-user/"
   force_destroy        = "true"
-  permissions_boundary = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/LimitTerraform"
+  permissions_boundary = var.permissions_boundary
 }
 
 resource "aws_iam_access_key" "circle_ci_machine_user" {
