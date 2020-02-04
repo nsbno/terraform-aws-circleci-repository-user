@@ -83,6 +83,7 @@ data "aws_iam_policy_document" "push_to_s3" {
     actions = [
       "s3:PutObject",
       "s3:ListBucket",
+      "s3:ListObject"
     ]
     resources = concat(var.allowed_s3_arns, formatlist("%s/*", var.allowed_s3_arns))
   }
