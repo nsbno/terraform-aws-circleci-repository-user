@@ -5,7 +5,6 @@ resource "aws_iam_user" "circle_ci_machine-user" {
   name                 = "${var.name_prefix}-circle-ci"
   path                 = "/machine-user/"
   force_destroy        = "true"
-  permissions_boundary = var.permissions_boundary
 }
 
 resource "aws_iam_access_key" "circle_ci_machine_user" {
