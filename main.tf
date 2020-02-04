@@ -89,13 +89,13 @@ data "aws_iam_policy_document" "push_to_s3" {
 }
 
 resource "aws_iam_user_policy_attachment" "ecr-to-ci-machine-user" {
-  count      = var.allowed_ecr_count
+  count      = var.allowed_ecr_count > 0 ? 1 : 0
   user       = aws_iam_user.circle_ci_machine-user.name
   policy_arn = aws_iam_policy.push_to_ecr[0].arn
 }
 
 resource "aws_iam_user_policy_attachment" "s3-to-ci-machine-user" {
-  count      = var.allowed_s3_count
+  count      = var.allowed_s3_count > 0 ? 1 : 0
   user       = aws_iam_user.circle_ci_machine-user.name
   policy_arn = aws_iam_policy.push_to_s3[0].arn
 }
