@@ -25,76 +25,22 @@ resource "aws_ssm_parameter" "pipeline-ci-user-key" {
   key_id = var.ci_parameters_key
 }
 
-resource "aws_iam_policy" "push_to_s3" {
-  count       = var.allowed_s3_count
-  name_prefix = "${var.name_prefix}-push-to-repos"
-  description = "This policy allows push access to specific repos"
-  policy      = data.aws_iam_policy_document.push_to_s3.json
+resource "aws_iam_user_policy" "s3_write_for_user" {
+  count       = length(var.allowed_s3_write_arns) > 0 ? 1 : 0
+  description = "This policy allows push and list access to specific S3 buckets."
+  policy      = data.aws_iam_policy_document.s3_write_to_user.json
 }
 
-resource "aws_iam_policy" "push_to_ecr" {
-  count       = var.allowed_ecr_count
-  name_prefix = "${var.name_prefix}-push-to-repos"
-  description = "This policy allows push access to specific repos"
-  policy      = data.aws_iam_policy_document.push_to_ecr.json
+resource "aws_iam_user_policy" "ecr_to_user" {
+  count       = length(var.allowed_ecr_arns) > 0 ? 1 : 0
+  description = "This policy allows push access to specific ECR repos."
+  user        = aws_iam_user.circle_ci_machine_user.name
+  policy      = data.aws_iam_policy_document.ecr_for_user.json
 }
 
-
-
-data "aws_iam_policy_document" "push_to_ecr" {
-  version = "2012-10-17"
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "ecr:GetAuthorizationToken",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:GetRepositoryPolicy",
-      "ecr:DescribeRepositories",
-      "ecr:ListImages",
-      "ecr:DescribeImages",
-      "ecr:BatchGetImage",
-      "ecr:InitiateLayerUpload",
-      "ecr:UploadLayerPart",
-      "ecr:CompleteLayerUpload",
-      "ecr:PutImage",
-    ]
-    resources = var.allowed_ecr_arns
-  }
-  statement {
-    effect = "Allow"
-    actions = [
-      "ecr:GetAuthorizationToken",
-    ]
-    resources = [
-      "*",
-    ]
-  }
-}
-
-data "aws_iam_policy_document" "push_to_s3" {
-  version = "2012-10-17"
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:PutObject",
-      "s3:List*",
-    ]
-    resources = concat(var.allowed_s3_arns, formatlist("%s/*", var.allowed_s3_arns))
-  }
-}
-
-resource "aws_iam_user_policy_attachment" "ecr-to-ci-machine-user" {
-  count      = var.allowed_ecr_count > 0 ? 1 : 0
-  user       = aws_iam_user.circle_ci_machine-user.name
-  policy_arn = aws_iam_policy.push_to_ecr[0].arn
-}
-
-resource "aws_iam_user_policy_attachment" "s3-to-ci-machine-user" {
-  count      = var.allowed_s3_count > 0 ? 1 : 0
-  user       = aws_iam_user.circle_ci_machine-user.name
-  policy_arn = aws_iam_policy.push_to_s3[0].arn
+resource "aws_iam_user_policy" "s3_read_for_user" {
+  count       = length(var.allowed_s3_read_arns) > 0 ? 1 : 0
+  description = "This policy allows read access to specific S3 buckets."
+  user        = aws_iam_user.circle_ci_machine_user.name
+  policy      = data.aws_iam_policy_document.s3_read_for_user.json
 }
