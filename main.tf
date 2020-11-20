@@ -26,20 +26,20 @@ resource "aws_ssm_parameter" "pipeline-ci-user-key" {
 
 resource "aws_iam_user_policy" "s3_write_for_user" {
   count       = length(var.allowed_s3_write_arns) > 0 ? 1 : 0
-  description = "This policy allows push and list access to specific S3 buckets."
+  name_prefix = "${var.name_prefix}-circleci-s3-write"
   policy      = data.aws_iam_policy_document.s3_write_to_user.json
 }
 
 resource "aws_iam_user_policy" "ecr_to_user" {
   count       = length(var.allowed_ecr_arns) > 0 ? 1 : 0
-  description = "This policy allows push access to specific ECR repos."
+  name_prefix = "${var.name_prefix}-circleci-ecr"
   user        = aws_iam_user.circle_ci_machine-user.name
   policy      = data.aws_iam_policy_document.ecr_for_user.json
 }
 
 resource "aws_iam_user_policy" "s3_read_for_user" {
   count       = length(var.allowed_s3_read_arns) > 0 ? 1 : 0
-  description = "This policy allows read access to specific S3 buckets."
+  name_prefix = "${var.name_prefix}-circleci-s3-read"
   user        = aws_iam_user.circle_ci_machine-user.name
   policy      = data.aws_iam_policy_document.s3_read_for_user.json
 }
