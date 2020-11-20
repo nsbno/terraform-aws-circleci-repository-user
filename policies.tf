@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "s3_write_for_user" {
       "s3:PutObject",
       "s3:List*",
     ]
-    resources = concat(var.allowed_s3_arns, formatlist("%s/*", var.allowed_s3_arns))
+    resources = concat(var.allowed_s3_write_arns, formatlist("%s/*", var.allowed_s3_write_arns))
   }
 }
 
@@ -53,6 +53,6 @@ data "aws_iam_policy_document" "s3_read_for_user" {
       "s3:Get*",
       "s3:List*",
     ]
-    resources = concat(var.allowed_s3_arns, formatlist("%s/*", var.allowed_s3_arns))
+    resources = concat(var.allowed_s3_read_arns, formatlist("%s/*", var.allowed_s3_read_arns))
   }
 }
