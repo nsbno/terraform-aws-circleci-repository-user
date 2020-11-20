@@ -27,6 +27,7 @@ resource "aws_ssm_parameter" "pipeline-ci-user-key" {
 resource "aws_iam_user_policy" "s3_write_for_user" {
   count       = length(var.allowed_s3_write_arns) > 0 ? 1 : 0
   name_prefix = "${var.name_prefix}-circleci-s3-write"
+  user        = aws_iam_user.circle_ci_machine-user.name
   policy      = data.aws_iam_policy_document.s3_write_for_user.json
 }
 
