@@ -33,13 +33,13 @@ resource "aws_iam_user_policy" "s3_write_for_user" {
 resource "aws_iam_user_policy" "ecr_to_user" {
   count       = length(var.allowed_ecr_arns) > 0 ? 1 : 0
   description = "This policy allows push access to specific ECR repos."
-  user        = aws_iam_user.circle_ci_machine_user.name
+  user        = aws_iam_user.circle_ci_machine-user.name
   policy      = data.aws_iam_policy_document.ecr_for_user.json
 }
 
 resource "aws_iam_user_policy" "s3_read_for_user" {
   count       = length(var.allowed_s3_read_arns) > 0 ? 1 : 0
   description = "This policy allows read access to specific S3 buckets."
-  user        = aws_iam_user.circle_ci_machine_user.name
+  user        = aws_iam_user.circle_ci_machine-user.name
   policy      = data.aws_iam_policy_document.s3_read_for_user.json
 }
