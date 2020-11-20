@@ -1,10 +1,9 @@
 data "aws_caller_identity" "current" {}
 
-
 resource "aws_iam_user" "circle_ci_machine-user" {
-  name                 = "${var.name_prefix}-circle-ci"
-  path                 = "/machine-user/"
-  force_destroy        = "true"
+  name          = "${var.name_prefix}-circle-ci"
+  path          = "/machine-user/"
+  force_destroy = "true"
 }
 
 resource "aws_iam_access_key" "circle_ci_machine_user" {
