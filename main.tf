@@ -48,19 +48,22 @@ resource "aws_iam_policy" "ecr" {
 }
 
 resource "aws_iam_user_policy_attachment" "s3_write_to_user" {
-  count      = length(aws_iam_policy.s3_write)
+  count      = length(var.allowed_s3_write_arns) > 0 ? 1 : 0
   user       = aws_iam_user.circle_ci_machine-user.name
   policy_arn = aws_iam_policy.s3_write[0].arn
+  depends_on = [aws_iam_policy.s3_write]
 }
 
 resource "aws_iam_user_policy_attachment" "s3_read_to_user" {
-  count      = length(aws_iam_policy.s3_read)
+  count      = length(var.allowed_s3_read_arns) > 0 ? 1 : 0
   user       = aws_iam_user.circle_ci_machine-user.name
   policy_arn = aws_iam_policy.s3_read[0].arn
+  depends_on = [aws_iam_policy.s3_read]
 }
 
 resource "aws_iam_user_policy_attachment" "ecr_to_user" {
-  count      = length(aws_iam_policy.ecr)
+  count      = length(var.allowed_ecr_arns) > 0 ? 1 : 0
   user       = aws_iam_user.circle_ci_machine-user.name
   policy_arn = aws_iam_policy.ecr[0].arn
+  depends_on = [aws_iam_policy.ecr]
 }
