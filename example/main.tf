@@ -1,5 +1,5 @@
 provider "aws" {
-  version = ">= 2.17"
+  version = ">= 3.00"
   region  = "eu-west-1"
 }
 module "machine_user" {
