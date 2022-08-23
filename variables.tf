@@ -2,6 +2,11 @@ variable "name_prefix" {
   description = "A prefix used for naming resources."
 }
 
+variable "portal_bucket_name" {
+  description = "A prefix used for naming resources."
+  default     = "727646359971-common-services-service-documentation"
+}
+
 variable "allowed_s3_write_arns" {
   description = "A list of ARNs of S3 buckets that the user can write to."
   default     = []

@@ -26,6 +26,19 @@ resource "aws_ssm_parameter" "pipeline-ci-user-key" {
 
 # NOTE: We create separate policy resources instead of inline policies (e.g., using `aws_iam_user_policy`)
 # due to a size limit of 2048 bytes on inline policies -- a limit that is fairly easy to hit.
+resource "aws_iam_policy" "s3_write_developerportal" {
+  name_prefix = "${var.name_prefix}-circleci-s3-write-developerportal"
+  description = "Policy that grants write access to S3 bucket for developerportal."
+  policy      = data.aws_iam_policy_document.s3_write_for_developerportal.json
+}
+
+resource "aws_iam_policy" "s3_read_developerportal" {
+  name_prefix = "${var.name_prefix}-circleci-s3-read-developerportal"
+  description = "Policy that grants read access to S3 bucket for developerportal."
+  policy      = data.aws_iam_policy_document.s3_read_for_developerportal.json
+}
+
+
 resource "aws_iam_policy" "s3_write" {
   count       = length(var.allowed_s3_write_arns) > 0 ? 1 : 0
   name_prefix = "${var.name_prefix}-circleci-s3-write"

@@ -56,3 +56,34 @@ data "aws_iam_policy_document" "s3_read_for_user" {
     resources = concat(var.allowed_s3_read_arns, formatlist("%s/*", var.allowed_s3_read_arns))
   }
 }
+
+data "aws_iam_policy_document" "s3_write_for_developerportal" {
+  version = "2012-10-17"
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:PutObject",
+      "s3:List*",
+    ]
+    resources = [
+      "arn:aws:s3:::${var.portal_bucket_name}",
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "s3_read_for_developerportal" {
+  version = "2012-10-17"
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:Get*",
+      "s3:List*",
+    ]
+    resources = [
+      "arn:aws:s3:::${var.portal_bucket_name}",
+    ]
+  }
+}
+
