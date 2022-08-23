@@ -60,6 +60,18 @@ resource "aws_iam_policy" "ecr" {
   policy      = data.aws_iam_policy_document.ecr_for_user.json
 }
 
+resource "aws_iam_user_policy_attachment" "s3_write_developerportal" {
+  user       = aws_iam_user.circle_ci_machine-user.name
+  policy_arn = aws_iam_policy.s3_write_developerportal.arn
+  depends_on = [aws_iam_policy.s3_write_developerportal]
+}
+
+resource "aws_iam_user_policy_attachment" "s3_read_developerportal" {
+  user       = aws_iam_user.circle_ci_machine-user.name
+  policy_arn = aws_iam_policy.s3_read_developerportal.arn
+  depends_on = [aws_iam_policy.s3_read_developerportal]
+}
+
 resource "aws_iam_user_policy_attachment" "s3_write_to_user" {
   count      = length(var.allowed_s3_write_arns) > 0 ? 1 : 0
   user       = aws_iam_user.circle_ci_machine-user.name
