@@ -68,6 +68,7 @@ data "aws_iam_policy_document" "s3_write_for_developerportal" {
     ]
     resources = [
       "arn:aws:s3:::${var.portal_bucket_name}",
+      "arn:aws:s3:::${var.portal_bucket_name}/*",
     ]
   }
 }
@@ -83,6 +84,7 @@ data "aws_iam_policy_document" "s3_read_for_developerportal" {
     ]
     resources = [
       "arn:aws:s3:::${var.portal_bucket_name}",
+      "arn:aws:s3:::${var.portal_bucket_name}/*",
     ]
   }
 }
