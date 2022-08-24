@@ -64,6 +64,7 @@ data "aws_iam_policy_document" "s3_write_for_developerportal" {
     effect = "Allow"
     actions = [
       "s3:PutObject",
+      "s3:PutObjectAcl",
       "s3:List*",
     ]
     resources = [
