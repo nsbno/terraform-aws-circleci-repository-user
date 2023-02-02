@@ -1,5 +1,4 @@
 #  Local .terraform directories
-**/.terraform/*
 .terraform/
 
 # .tfstate files
@@ -11,3 +10,4 @@
 
 # IntelliJ Files
 .idea/
+.iml

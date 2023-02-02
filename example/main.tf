@@ -1,9 +1,0 @@
-provider "aws" {
-  version = ">= 3.00"
-  region  = "eu-west-1"
-}
-module "machine_user" {
-  source            = "../"
-  ci_parameters_key = "test"
-  name_prefix       = "test"
-}

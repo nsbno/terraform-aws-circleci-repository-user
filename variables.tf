@@ -1,36 +1,21 @@
 variable "name_prefix" {
   description = "A prefix used for naming resources."
+  type        = string
 }
 
-variable "portal_bucket_name" {
-  description = "A prefix used for naming resources."
-  default     = "727646359971-common-services-service-documentation"
+variable "user_path" {
+  description = "The path of the user in the IAM service"
+  type        = string
+  default     = "/machine-user/"
 }
 
-variable "allowed_s3_write_arns" {
-  description = "A list of ARNs of S3 buckets that the user can write to."
-  default     = []
-  type        = list(string)
+variable "artifact_bucket_arn" {
+  description = "The name of the bucket where deployment artifacts are uploaded"
+  type        = string
 }
 
-variable "allowed_s3_read_arns" {
-  description = "A list of ARNs of S3 buckets that the user can read from."
-  default     = []
-  type        = list(string)
-}
-
-variable "allowed_ecr_arns" {
-  description = "A list of ARNs of ECR repositories that the user can read from and write to."
-  default     = []
-  type        = list(string)
-}
-
-variable "ci_parameters_key" {
-  description = "The ID or ARN of a KMS key or alias to use for encrypting the credentials when storing them in Parameter Store."
-}
-
-variable "tags" {
-  description = "A map of tags (key-value pairs) passed to resources."
-  type        = map(string)
-  default     = {}
+variable "documentation_portal_bucket_arn" {
+  description = "The name of the bucket where service documentation is uploaded"
+  type        = string
+  default     = "arn:aws:s3:::727646359971-common-services-service-documentation"
 }

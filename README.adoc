@@ -1,0 +1,38 @@
+= CI Machine User
+:!toc-title:
+:!toc-placement:
+:toc:
+
+A machine user for CircleCI which allows for triggering the pipeline and uploading artifacts.
+
+toc::[]
+
+== About
+
+This module makes it easy and safe to manage and distribute access to your deployments.
+
+== Setup
+
+The setup happens in your team's `<team>-aws` repository.
+Here you will set up the module, which handles integration with CircleCI.
+
+[source,hcl-terraform]
+----
+module "circleci_user" {
+  source = "https://github.com/nsbno/terraform-aws-circleci-repository-user?ref=x.y.z"
+
+  name_prefix = "deployment"
+
+  artifact_bucket_arn = "arn:aws:s3:::my-artifact-bucket"
+}
+----
+
+
+== Getting access to the user
+
+When you have run terraform to create the user, it is accessible via two SSM parameters:
+
+* https://eu-west-1.console.aws.amazon.com/systems-manager/parameters/ci/user-id/description?region=eu-west-1&tab=Table[/ci/user-id]
+* https://eu-west-1.console.aws.amazon.com/systems-manager/parameters/ci/user-secret/description?region=eu-west-1&tab=Table[/ci/user-secret]
+
+Put these into your CircleCI context!
