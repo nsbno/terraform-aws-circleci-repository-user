@@ -20,7 +20,7 @@ variable "old_artifact_bucket_arn" {
 }
 
 variable "documentation_portal_bucket_arn" {
-  description = "The name of the bucket where service documentation is uploaded"
+  description = "The name of the bucket where api portal documentation is uploaded"
   type        = string
-  default     = "arn:aws:s3:::727646359971-common-services-service-documentation"
+  default     = "arn:aws:s3:::727646359971-api-portal-artifacts"
 }
