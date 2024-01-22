@@ -14,11 +14,6 @@ variable "artifact_bucket_arn" {
   type        = string
 }
 
-variable "old_artifact_bucket_arn" {
-  description = "The name of the old bucket where deployment artifacts are uploaded. For backwards compatability."
-  type        = string
-}
-
 variable "documentation_portal_bucket_arn" {
   description = "The name of the bucket where api portal documentation is uploaded"
   type        = string
