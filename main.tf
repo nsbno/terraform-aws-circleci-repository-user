@@ -42,6 +42,9 @@ data "aws_iam_policy_document" "allow_artifact_access" {
       "s3:Get*",
     ]
     resources = [
+      # For backwards compatibility, we need to allow access to the old bucket
+      "arn:aws:s3:::727646359971-common-services-service-documentation",
+      "arn:aws:s3:::727646359971-common-services-service-documentation/*",
       var.artifact_bucket_arn,
       "${var.artifact_bucket_arn}/*",
       var.documentation_portal_bucket_arn,
