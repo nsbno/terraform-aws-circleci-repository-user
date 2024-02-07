@@ -47,6 +47,8 @@ data "aws_iam_policy_document" "allow_artifact_access" {
       "arn:aws:s3:::727646359971-common-services-service-documentation/*",
       var.artifact_bucket_arn,
       "${var.artifact_bucket_arn}/*",
+      var.old_artifact_bucket_arn,
+      "${var.old_artifact_bucket_arn}/*",
       var.documentation_portal_bucket_arn,
       "${var.documentation_portal_bucket_arn}/*",
     ]
